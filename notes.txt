@@ -1,0 +1,5 @@
+1*    {
+      name: "LCP",  // Largest Contentful Paint
+      value: 2500,  // milliseconds
+      ...
+    }

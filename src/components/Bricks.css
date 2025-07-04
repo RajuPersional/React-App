@@ -1,192 +1,293 @@
-/* Scoped Bricks CSS - Exact copy of original but scoped to .bricks-root */
+/* Reset and base styles */
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100%;
+}
+
 .bricks-root {
     margin: 0;
     font-family: Arial, sans-serif;
     width: 100%;
     height: 100vh;
     background: none;
+    overflow: hidden;
 }
 
-.bricks-root .container {
+/* Container styles */
+.bricks-container {
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: auto;
+    height: 100vh;
+    overflow: hidden;
 }
 
-.bricks-root .First-container {
+.bricks-first-container {
     display: flex;
     flex-direction: row;
     width: 100%;
     height: 100vh;
+    position: relative;
+    overflow: hidden;
 }
 
-.bricks-root .image {
+/* Left section styles */
+.bricks-left-section {
+    width: 70%;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.bricks-image {
     width: 100%;
     height: 100%;
-}
-
-.bricks-root .left-section {
-    width: 70%;
-    height: 100%;
-    opacity: 0.91;
-}
-
-.bricks-root .welcome {
+    object-fit: cover;
     position: absolute;
-    top: 2%;
+    top: 0;
+    left: 0;
+}
+
+.bricks-welcome {
+    position: absolute;
+    top: 10%;
     left: 10%;
-    width: 60%;
-    font-size: 115px;
+    width: 80%;
+    font-size: 5.5vw;
     color: white;
     font-weight: bold;
     opacity: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    line-height: 1.2;
 }
 
-.bricks-root .welcome.visible {
-    opacity: 1;
+.bricks-visible {
+    opacity: 1 !important;
     transition: opacity 1s ease-in;
 }
 
-.bricks-root .hightlight {
+.bricks-highlight {
     color: hsl(0, 78%, 84%);
 }
 
-.bricks-root .collage-subheading {
+.bricks-subheading {
     position: absolute;
-    width: 60%;
+    width: 80%;
     top: 70%;
     left: 10%;
-    font-size: 60px;
-    color: hwb(0 100% 0%);
+    font-size: 2.5vw;
+    color: white;
     opacity: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    line-height: 1.3;
 }
 
-.bricks-root .collage-subheading.visible {
-    opacity: 1;
-    transition: opacity 1s ease-in;
-}
-
-.bricks-root .right-section {
+/* Right section styles */
+.bricks-right-section {
     width: 30%;
+    height: 100vh;
     background: white;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
     box-sizing: border-box;
+    overflow-y: auto;
 }
 
-.bricks-root .login-container {
-    width: 80%;
+.bricks-logo {
+    max-width: 150px;
+    margin-bottom: 20px;
+}
+
+.bricks-login-container {
+    width: 100%;
     max-width: 400px;
     text-align: center;
-    padding-top: 0%;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-.bricks-root .register-container {
+.bricks-login-container h1 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+/* Form styles */
+.bricks-register-container {
     display: flex;
     flex-direction: column;
     margin-bottom: 15px;
     text-align: left;
 }
 
-.bricks-root .register-container label {
-    margin-bottom: 5px;
-    font-size: 16px;
+.bricks-register-container label {
+    margin-bottom: 8px;
+    font-size: 1rem;
+    color: #555;
+    font-weight: 500;
+}
+
+.bricks-register-input {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+}
+
+/* Password container */
+.bricks-password-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.bricks-password-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.bricks-password-input {
+    flex: 1;
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding-right: 40px;
+}
+
+.bricks-toggle-password {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #666;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Remember me */
+.bricks-remember-me {
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
+}
+
+.bricks-checkbox {
+    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+}
+
+.bricks-remember-me-text {
+    font-size: 0.9rem;
     color: #555;
 }
 
-.bricks-root .register-input {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
-
-.login-button {
+/* Login button */
+.bricks-login-button {
     width: 100%;
     padding: 12px;
     background: #2c3e50;
-    color: #fff;
+    color: white;
     border: none;
-    border-radius: 5px;
-    font-size: 18px;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
-    margin-top: 20px;
+    margin: 20px 0;
+    transition: background-color 0.3s;
 }
 
-.login-button:hover {
-    background: #34495e;
+.bricks-login-button:hover {
+    background: #1a252f;
 }
 
-.links {
-    margin-top: 12px;
+.bricks-login-button:disabled {
+    background: #95a5a6;
+    cursor: not-allowed;
 }
 
-.links a {
+/* Links */
+.bricks-links {
+    margin-top: 15px;
+}
+
+.bricks-links a {
     color: #2c3e50;
     text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s;
 }
 
-.bricks-root .password-container {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 15px;
-    text-align: left;
+.bricks-links a:hover {
+    color: #1a252f;
+    text-decoration: underline;
 }
 
-.bricks-root .password-container label {
-    margin-bottom: 5px;
-    font-size: 16px;
-    color: #555;
-}
-
-.bricks-root .password-input-container {
-    display: flex;
-    align-items: center;
-    width: 100%;
-}
-.password-input-container{
-    position: relative;
-    
-    
-}
-
-.bricks-root .password-input {
-    flex: 1;
+/* Error message */
+.bricks-error-message {
+    color: #e74c3c;
+    background-color: #fde8e8;
     padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+}
+.bricks-password-input {
+    flex: 1;
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
     box-sizing: border-box;
+    padding-right: 40px;
 }
 
-.bricks-root .toggle-password {
+.bricks-toggle-password {
     position: absolute;
     right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 20px;
-    cursor: pointer;
     background: none;
     border: none;
-    padding: 0 10px;
-}
-
-.remember-me {
-    margin-top: 12px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #666;
+    padding: 0;
+    width: 30px;
+    height: 30px;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
-.remember-me-text {
-    margin-left: 8px;
+/* Remember me */
+.bricks-remember-me {
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
 }
 
-.checkbox {
-    accent-color: #2c3e50;
+.bricks-checkbox {
+    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+}
+
+.bricks-remember-me-text {
+    font-size: 0.9rem;
+    color: #555;
 }
