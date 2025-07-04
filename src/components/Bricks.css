@@ -1,0 +1,192 @@
+/* Scoped Bricks CSS - Exact copy of original but scoped to .bricks-root */
+.bricks-root {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    width: 100%;
+    height: 100vh;
+    background: none;
+}
+
+.bricks-root .container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+}
+
+.bricks-root .First-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100vh;
+}
+
+.bricks-root .image {
+    width: 100%;
+    height: 100%;
+}
+
+.bricks-root .left-section {
+    width: 70%;
+    height: 100%;
+    opacity: 0.91;
+}
+
+.bricks-root .welcome {
+    position: absolute;
+    top: 2%;
+    left: 10%;
+    width: 60%;
+    font-size: 115px;
+    color: white;
+    font-weight: bold;
+    opacity: 0;
+}
+
+.bricks-root .welcome.visible {
+    opacity: 1;
+    transition: opacity 1s ease-in;
+}
+
+.bricks-root .hightlight {
+    color: hsl(0, 78%, 84%);
+}
+
+.bricks-root .collage-subheading {
+    position: absolute;
+    width: 60%;
+    top: 70%;
+    left: 10%;
+    font-size: 60px;
+    color: hwb(0 100% 0%);
+    opacity: 0;
+}
+
+.bricks-root .collage-subheading.visible {
+    opacity: 1;
+    transition: opacity 1s ease-in;
+}
+
+.bricks-root .right-section {
+    width: 30%;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.bricks-root .login-container {
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+    padding-top: 0%;
+}
+
+.bricks-root .register-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.bricks-root .register-container label {
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #555;
+}
+
+.bricks-root .register-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.login-button {
+    width: 100%;
+    padding: 12px;
+    background: #2c3e50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.login-button:hover {
+    background: #34495e;
+}
+
+.links {
+    margin-top: 12px;
+}
+
+.links a {
+    color: #2c3e50;
+    text-decoration: none;
+}
+
+.bricks-root .password-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.bricks-root .password-container label {
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #555;
+}
+
+.bricks-root .password-input-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+.password-input-container{
+    position: relative;
+    
+    
+}
+
+.bricks-root .password-input {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.bricks-root .toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0 10px;
+}
+
+.remember-me {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+}
+
+.remember-me-text {
+    margin-left: 8px;
+}
+
+.checkbox {
+    accent-color: #2c3e50;
+}
