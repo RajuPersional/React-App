@@ -1,0 +1,11 @@
+1* 
+    // Wait 2 seconds, then add the 'bricks-visible' class
+setTimeout(function () {
+  const welcomeDiv = document.getElementById('welcome');
+  if (welcomeDiv) {
+    welcomeDiv.classList.add('bricks-visible');
+  }
+}, 2000);
+
+
+This is how the setTimeout works so the performance is in side the setTimeout after the "," we using the time 

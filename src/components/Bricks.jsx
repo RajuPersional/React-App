@@ -16,11 +16,11 @@ const Bricks = () => {
         if (!registerNumber || !password) {
             setError('Please enter both registration number and password');
             return;
-        }
+        }   
         setLoading(true);
         try {
             const res = await fetch('http://127.0.0.1:5000/api/login', {
-                method: 'POST',
+                method: 'POST', 
                 headers: { 
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
@@ -41,7 +41,7 @@ const Bricks = () => {
             alert('Login successful!');
             // You can redirect or update app state here
             
-        } catch (err) {
+        } catch (err) {// The err in catch (err) gets its value from the error that was thrown inside the try block`.
             setError(err.message || 'Login failed. Please check your credentials.');
         } finally {
             setLoading(false);
@@ -55,8 +55,8 @@ const Bricks = () => {
         // setSubheadingVisible(true);
         
         // Original animation timing
-        setTimeout(() => setWelcomeVisible(true), 500);
-        setTimeout(() => setSubheadingVisible(true), 1000);
+        setTimeout(() => setWelcomeVisible(true), 500);//1*
+        setTimeout(() => setSubheadingVisible(true), 1000);//1*
     }, []);
 
     return (
@@ -67,7 +67,7 @@ const Bricks = () => {
                     <div className="bricks-left-section">
                         <img 
                             className="bricks-image" 
-                            src={process.env.PUBLIC_URL + '/Landing Page (1).jpeg'} 
+                            src={`${import.meta.env.BASE_URL}Landing Page (1).jpeg`} // the output of the import.meta.env.BASE_URL base url "/"
                             alt="Landing Page"
                         />
                         <div className={`bricks-welcome ${welcomeVisible ? 'bricks-visible' : ''}`}>
@@ -83,7 +83,7 @@ const Bricks = () => {
                         <div className="bricks-login-container">
                             <img 
                                 className="bricks-logo" 
-                                src={process.env.PUBLIC_URL + '/Logo.jpeg'} 
+                                src={`${import.meta.env.BASE_URL}Logo.jpeg`} 
                                 alt="Logo"
                             />
                             <h1>Login to your account</h1>
