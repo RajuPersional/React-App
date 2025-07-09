@@ -1,5 +1,5 @@
 import React from 'react';
-import Bricks from './components/Bricks.jsx';
+import Bricks from './components/jsx_Files/Bricks.jsx';
 import './App.css';
 
 
