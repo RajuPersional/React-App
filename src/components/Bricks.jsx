@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './Bricks.css';
+import { useNavigate } from 'react-router-dom';
 
 const Bricks = () => {
+    const navigate = useNavigate();// the navigate is the Funtion name
     const [registerNumber, setRegisterNumber] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -36,9 +38,13 @@ const Bricks = () => {
             if (!res.ok) {
                 throw new Error(data.error || 'Login failed');
             }
+            navigate('/Attendance')
             
+
+           
             // Handle successful login
             alert('Login successful!');
+            // <Attendance />
             // You can redirect or update app state here
             
         } catch (err) {// The err in catch (err) gets its value from the error that was thrown inside the try block`.

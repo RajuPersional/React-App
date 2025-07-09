@@ -1,0 +1,3 @@
+db.String(50)	Column is a string, max 50 characters ✅
+unique=True	No two rows can have the same value ✅
+nullable=False	Field must be filled (not empty) ✅

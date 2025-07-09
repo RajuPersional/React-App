@@ -24,7 +24,7 @@ def init_db():
             INSERT INTO users (registration_number, password_hash, name, email)
             VALUES (?, ?, ?, ?)
         ''', (
-            '123456789',
+            '12345',
             generate_password_hash('password123'),
             'Raju',
             'test@example.com'
