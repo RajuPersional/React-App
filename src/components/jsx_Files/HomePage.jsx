@@ -1,5 +1,6 @@
 import Sidebar from './Sidebar'
 import '../css_files/HomePage.css'
+import { Outlet } from 'react-router-dom';
 const HomePage =() => {
             return (
                 <div className="container">
@@ -31,7 +32,7 @@ const HomePage =() => {
                             </header>
         
                             <div id="total-container" className="total-content">
-                                {/* content will go here */}
+                                <Outlet />
                             </div>
                         </div>
                     </div>
