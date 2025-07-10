@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import '../Bricks.css';
+import '../css_files/Bricks.css';
 import { useNavigate } from 'react-router-dom';
+
 
 const Bricks = () => {
     const navigate = useNavigate();// the navigate is the Funtion name
@@ -38,12 +39,12 @@ const Bricks = () => {
             if (!res.ok) {
                 throw new Error(data.error || 'Login failed');
             }
-            navigate('/Attendance')
+            navigate('./HomePage')
             
 
            
             // Handle successful login
-            alert('Login successful!');
+            // alert('Login successful!');
             // <Attendance />
             // You can redirect or update app state here
             

@@ -18,3 +18,11 @@
 .sidebar a:hover {
   background: #444;
 }
+
+.sidebar-link {
+  background-color: transparent !important;
+  padding: 8px 12px;         /* Optional: clean spacing */
+  display: inline-block;     /* Keeps icon and text aligned */
+  border: none;              /* Removes any border */
+  border-radius: 0;          /* Removes rounded corners */
+}
