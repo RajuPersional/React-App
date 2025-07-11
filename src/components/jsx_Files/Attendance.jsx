@@ -12,6 +12,7 @@ const Attendance = () => {
   useEffect(() => {
     const fetchAttendanceData = async () => {
       try {
+        console.time("FetchAttendance"); // Start timer
         const response = await fetch('http://localhost:5000/api/merged-attendance', {
           method: 'GET',
           headers: {
@@ -19,26 +20,24 @@ const Attendance = () => {
             'Accept': 'application/json'
           }
         });
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
+  
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+  
         const result = await response.json();
         console.log('Server response:', result);
-        
-        if (result.status === 'error') {
-          throw new Error(result.error);
-        }
-        
+        console.timeEnd("FetchAttendance"); // End timer
+  
+        if (result.status === 'error') throw new Error(result.error);
+  
         const data = result.data;
-        if (!data || (!data.courses && !data.attendance)) {
-          throw new Error('Invalid data format received from server');
-        }
-        
+        if (!data || (!data.courses && !data.attendance)) throw new Error('Invalid data format');
+  
+        console.time("StateUpdate");
         setCourses(data.courses);
         setAttendanceData(data.attendance);
         setIsLoading(false);
+        console.timeEnd("StateUpdate");
+  
       } catch (err) {
         console.error('Error loading attendance data:', err);
         setError(err.message);
@@ -47,7 +46,8 @@ const Attendance = () => {
     };
   
     fetchAttendanceData();
-  }, []); // Empty dependency array
+  }, []);
+  
 
   const openModal = (courseCode) => {
     setSelectedCourse(courseCode);
@@ -67,8 +67,8 @@ const Attendance = () => {
     return <div className="error">{error}</div>;
   }
 
-  return (
-    <div className="attendance-container">
+  return ( 
+    <div className="Attendance-container">
       <h2>Attendance Summary</h2>
       <div className="table-responsive">
         <table className="attendance-table">
