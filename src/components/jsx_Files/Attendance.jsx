@@ -1,131 +1,148 @@
-import React, { useState } from 'react';
-import '../css_files/Attendance.css'; // Link your styles here
+import React, { useState, useEffect } from 'react';
+import '../css_files/Attendance.css';
 
 const Attendance = () => {
-  // Sample attendance data
-  const [attendanceData, setAttendanceData] = useState([
-    {
-      sno: 1,
-      courseCode: 'CS101',
-      courseName: 'Intro to CS',
-      classAttended: 12,
-      attendedHours: 24,
-      totalClass: 15,
-      totalHours: 30,
-      percentage: 80,
-      details: [
-        { sno: 1, date: '2025-07-01', type: 'Absent' },
-        { sno: 2, date: '2025-07-04', type: 'Leave' }
-      ]
-    },
-    {
-      sno: 2,
-      courseCode: 'MATH301',
-      courseName: 'Discrete Math',
-      classAttended: 10,
-      attendedHours: 20,
-      totalClass: 15,
-      totalHours: 30,
-      percentage: 67,
-      details: [
-        { sno: 1, date: '2025-07-02', type: 'Absent' }
-      ]
-    },
-    {
-      sno: 3,
-      courseCode: 'PHY201',
-      courseName: 'Mechanics',
-      classAttended: 15,
-      attendedHours: 30,
-      totalClass: 15,
-      totalHours: 30,
-      percentage: 100,
-      details: []
-    }
-  ]);
-
+  const [courses, setCourses] = useState({});
+  const [attendanceData, setAttendanceData] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [selectedCourse, setSelectedCourse] = useState(null);
-  const [showModal, setShowModal] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const openModal = (course) => {
-    setSelectedCourse(course);
-    setShowModal(true);
+  useEffect(() => {
+    const fetchAttendanceData = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/merged-attendance', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          }
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const result = await response.json();
+        console.log('Server response:', result);
+        
+        if (result.status === 'error') {
+          throw new Error(result.error);
+        }
+        
+        const data = result.data;
+        if (!data || (!data.courses && !data.attendance)) {
+          throw new Error('Invalid data format received from server');
+        }
+        
+        setCourses(data.courses);
+        setAttendanceData(data.attendance);
+        setIsLoading(false);
+      } catch (err) {
+        console.error('Error loading attendance data:', err);
+        setError(err.message);
+        setIsLoading(false);
+      }
+    };
+  
+    fetchAttendanceData();
+  }, []); // Empty dependency array
+
+  const openModal = (courseCode) => {
+    setSelectedCourse(courseCode);
+    setIsModalOpen(true);
   };
 
   const closeModal = () => {
-    setShowModal(false);
+    setIsModalOpen(false);
     setSelectedCourse(null);
   };
 
-  return (
-    <div className="Attendence-container">
-      <table className="attendance-table">
-        <thead>
-          <tr>
-            <th className="sortable">S No. <span className="sort-icon">▲</span></th>
-            <th className="sortable">Course Code <span className="sort-icon">▲</span></th>
-            <th className="sortable">Course Name <span className="sort-icon">▲</span></th>
-            <th className="sortable">Class Attended <span className="sort-icon">▲</span></th>
-            <th className="sortable">Attended Hours <span className="sort-icon">▲</span></th>
-            <th className="sortable">Total Class <span className="sort-icon">▲</span></th>
-            <th className="sortable">Total Hours <span className="sort-icon">▲</span></th>
-            <th className="sortable">% <span className="sort-icon">▲</span></th>
-            <th className="sortable">View <span className="sort-icon">▲</span></th>
-          </tr>
-        </thead>
-        <tbody>
-          {attendanceData.map((course, index) => (
-            <tr key={index}>
-              <td>{course.sno}</td>
-              <td>{course.courseCode}</td>
-              <td>{course.courseName}</td>
-              <td>{course.classAttended}</td>
-              <td>{course.attendedHours}</td>
-              <td>{course.totalClass}</td>
-              <td>{course.totalHours}</td>
-              <td>{course.percentage}%</td>
-              <td>
-                <button onClick={() => openModal(course)}>View</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+  if (isLoading) {
+    return <div className="loading">Loading attendance data...</div>;
+  }
 
-      <div className="pagination-info">
-        Showing 1 to {attendanceData.length} of {attendanceData.length} entries
+  if (error) {
+    return <div className="error">{error}</div>;
+  }
+
+  return (
+    <div className="attendance-container">
+      <h2>Attendance Summary</h2>
+      <div className="table-responsive">
+        <table className="attendance-table">
+          <thead>
+            <tr>
+              <th>S.No</th>
+              <th>Course Code</th>
+              <th>Course Name</th>
+              <th>Classes Attended</th>
+              <th>Hours Attended</th>
+              <th>Total Classes</th>
+              <th>Total Hours</th>
+              <th>Percentage</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Object.entries(courses).map(([courseCode, course], index) => (
+              <tr key={courseCode}>
+                <td>{index + 1}</td>
+                <td>{courseCode}</td>
+                <td>{course.CourseName || 'Unknown Course'}</td>
+                <td>{course.ClassAttended || 0}</td>
+                <td>{course.AttendedHours || 0}</td>
+                <td>{course.TotalClass || 0}</td>
+                <td>{course.TotalHours || 0}</td>
+                <td>{course.Percentage || '0%'}</td>
+                <td>
+                  <button 
+                    className="details-btn"
+                    onClick={() => openModal(courseCode)}
+                  >
+                    Details
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
-      {showModal && selectedCourse && (
-        <div id="attendance-modal" className="modal">
-          <div className="modal-content">
-            <span id="close" className="close-button" onClick={closeModal}>&times;</span>
-            <h3 id="wise">Attendance day wise absent details</h3>
-            <table className="modal-table">
-              <thead>
-                <tr>
-                  <th>S No.</th>
-                  <th>Dated On</th>
-                  <th>Attendance Type</th>
-                </tr>
-              </thead>
-              <tbody id="modal-table-body">
-                {selectedCourse.details.length === 0 ? (
+      {isModalOpen && (
+        <div className="modal-overlay" onClick={closeModal}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>Attendance Details - {selectedCourse}</h3>
+              <button className="close-button" onClick={closeModal}>&times;</button>
+            </div>
+            <div className="modal-body">
+              <table className="modal-table">
+                <thead>
                   <tr>
-                    <td colSpan="3">No absence records</td>
+                    <th>S.No</th>
+                    <th>Date</th>
+                    <th>Status</th>
                   </tr>
-                ) : (
-                  selectedCourse.details.map((detail, i) => (
-                    <tr key={i}>
-                      <td>{detail.sno}</td>
-                      <td>{detail.date}</td>
-                      <td>{detail.type}</td>
+                </thead>
+                <tbody>
+                  {attendanceData[selectedCourse]?.length > 0 ? (
+                    attendanceData[selectedCourse].map((item, index) => (
+                      <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td>{item.datedOn}</td>
+                        <td>{item.attendanceType}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="3" className="no-data">No attendance records found</td>
                     </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-            <button className="close-button modal-close-btn" onClick={closeModal}>Close</button>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       )}
