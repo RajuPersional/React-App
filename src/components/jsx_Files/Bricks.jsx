@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import '../css_files/Bricks.css';
 import { useNavigate } from 'react-router-dom';
 
-
-
 const Bricks = () => {
     const navigate = useNavigate();// the navigate is the Funtion name
     const [registerNumber, setRegisterNumber] = useState('');

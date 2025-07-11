@@ -5,7 +5,6 @@ const HomePage =() => {
             return (
                 <div className="container">
                     <div className="full-container">
-        
                         {/* Sidebar */}
                         <aside className="sidebar">
                             <div className="toggle">
@@ -16,7 +15,6 @@ const HomePage =() => {
                             </div>
                             <Sidebar />
                         </aside>
-        
                         {/* Right side */}
                         <div className="right-side">
                             <header className="main-header">
@@ -30,7 +28,6 @@ const HomePage =() => {
                                     <i className="fas fa-sign-out-alt sig-out" style={{ cursor: "pointer" }}></i>
                                 </div>
                             </header>
-        
                             <div id="total-container" className="total-content">
                                 <Outlet />
                             </div>
@@ -39,4 +36,4 @@ const HomePage =() => {
                 </div>
             );
         }
-export default  HomePage 
+export default HomePage 
