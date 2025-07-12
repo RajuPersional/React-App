@@ -167,3 +167,4 @@ const Bricks = () => {
 };
 
 export default Bricks;
+

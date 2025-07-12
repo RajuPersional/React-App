@@ -169,3 +169,7 @@ body {
 }
 
 
+.total-content{
+    position: absolute;
+    width: 85%;
+}

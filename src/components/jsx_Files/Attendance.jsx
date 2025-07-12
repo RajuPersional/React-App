@@ -68,7 +68,9 @@ const Attendance = () => {
   }
 
   return ( 
-    <div className="Attendance-container">
+    <>
+      <div className={`Attendance-container ${isModalOpen ? 'modal-open' : ''}`}>
+      {error && <div className="error-message">{error}</div>}
       <h2>Attendance Summary</h2>
       <div className="table-responsive">
         <table className="attendance-table">
@@ -109,9 +111,11 @@ const Attendance = () => {
           </tbody>
         </table>
       </div>
+    </div>
 
-      {isModalOpen && (
-        <div className="modal-overlay" onClick={closeModal}>
+    
+    {isModalOpen && (
+        <div className="modal" onClick={closeModal}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>
             <div className="modal-header">
               <h3>Attendance Details - {selectedCourse}</h3>
@@ -143,10 +147,16 @@ const Attendance = () => {
                 </tbody>
               </table>
             </div>
+            <button
+               className="details-btn"
+               onClick={closeModal}
+               >Close
+          </button>
           </div>
         </div>
       )}
-    </div>
+    </>
+    
   );
 };
 
