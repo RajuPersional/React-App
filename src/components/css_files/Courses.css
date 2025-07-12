@@ -11,9 +11,12 @@
 }
 
 
+.completed-course {
+    margin-bottom: 40px;
+}
 
-.inprogress-courses{
-    margin-top: 50px;
+.inprogress-courses {
+    margin-top: 40px;  /* Already exists, keep it */
 }
 
 .section-headers {
@@ -27,7 +30,6 @@
     font-size: 1.1rem;
     color: white;
     user-select: none;
-    transition: all 9.3s ease;
     border-radius: 5px
 }
 
@@ -37,13 +39,14 @@
 
 /* Completed Courses Header */
 .completed-course .section-headers{
-    background: green;
+    background: #065f46;
 }
 
-/* In Progress Courses Header - Slate Blue (Active) */
-.inprogress-courses .section-headers {
-    background: rgb(4, 4, 70);
+.inprogress-courses .section-headers{
+    background: #1e3a8a;
 }
+/* In Progress Courses Header - Slate Blue (Active) */
+
 
 .section-icon {
     margin-right: 12px;
