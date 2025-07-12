@@ -12,10 +12,35 @@ const CompletedCourses = () => {
     { sno: 5, code: 'CSA47', name: 'Deep Learning', grade: 'B', status: 'PASS', date: 'November-2024' },
   ];
 
+  const handleToggle = () => {
+    const content = document.querySelector('.completed-course .section-content');
+    if (!isCollapsed) {
+      // Start collapse animation
+      content.style.transition = 'all 0.4s ease-in-out';
+      content.style.maxHeight = '0';
+      content.style.opacity = '0';
+      content.style.padding = '0 24px';
+      // Update state after animation completes
+      setTimeout(() => {
+        setIsCollapsed(true);
+      }, 400);
+    } else {
+      // Expand immediately
+      setIsCollapsed(false);
+      // Force reflow to ensure the element is rendered before animating
+      setTimeout(() => {
+        content.style.transition = 'all 0.4s ease-in-out';
+        content.style.maxHeight = '1000px';
+        content.style.opacity = '1';
+        content.style.padding = '24px';
+      }, 0);
+    }
+  };
+
   return (
     <div className="completed-course">
-      <div className="collapsible-section">
-        <div className="section-headers" onClick={() => setIsCollapsed(!isCollapsed)}>
+      <div className={`collapsible-section ${isCollapsed ? 'collapsed' : ''}`}>
+        <div className="section-headers" onClick={handleToggle}>
           COMPLETED COURSES
           <span className="toggle-icon">{isCollapsed ? '▲' : '▼'}</span>
         </div>
@@ -37,7 +62,7 @@ const CompletedCourses = () => {
                 <tbody>
                   {completedCourses.map((course) => (
                     <tr key={course.sno}>
-                      <td>{course.sno}</td>
+                      <td><span className="course-code">{course.sno}</span></td>
                       <td><span className="course-code">{course.code}</span></td>
                       <td>{course.name}</td>
                       <td><span className={`grade-badge grade-${course.grade.toLowerCase()}`}>{course.grade}</span></td>
@@ -64,10 +89,35 @@ const InProgressCourses = () => {
     { code: 'WD102', name: 'Web Development', status: 'Ongoing', enrolledOn: 'May-2025' }
   ];
 
+  const handleToggle = () => {
+    const content = document.querySelector('.inprogress-courses .section-content');
+    if (!isCollapsed) {
+      // Start collapse animation
+      content.style.transition = 'all 0.4s ease-in-out';
+      content.style.maxHeight = '0';
+      content.style.opacity = '0';
+      content.style.padding = '0 24px';
+      // Update state after animation completes
+      setTimeout(() => {
+        setIsCollapsed(true);
+      }, 400);
+    } else {
+      // Expand immediately
+      setIsCollapsed(false);
+      // Force reflow to ensure the element is rendered before animating
+      setTimeout(() => {
+        content.style.transition = 'all 0.4s ease-in-out';
+        content.style.maxHeight = '1000px';
+        content.style.opacity = '1';
+        content.style.padding = '24px';
+      }, 0);
+    }
+  };
+
   return (
     <div className="inprogress-courses">
-      <div className="collapsible-section">
-        <div className="section-headers" onClick={() => setIsCollapsed(!isCollapsed)}>
+      <div className={`collapsible-section ${isCollapsed ? 'collapsed' : ''}`}>
+        <div className="section-headers" onClick={handleToggle}>
           IN PROGRESS COURSES
           <span className="toggle-icon">{isCollapsed ? '▲' : '▼'}</span>
         </div>
@@ -86,7 +136,7 @@ const InProgressCourses = () => {
               <tbody>
                 {inProgressCourses.map((course, index) => (
                   <tr key={index}>
-                    <td>{course.code}</td>
+                    <td><span className="course-code">{course.code}</span></td>
                     <td>{course.name}</td>
                     <td>{course.status}</td>
                     <td>{course.enrolledOn}</td>

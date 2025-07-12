@@ -22,7 +22,7 @@ const Dashboard = () => {
                   <div className="notification-item" key={i}>
                     <div className="notification-avatar">
                       <img
-                        src="/static/Landing Page (1).jpeg"
+                        src="/Landing Page (1).jpeg"
                         alt="Avatar"
                       />
                     </div>
