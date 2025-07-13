@@ -9,6 +9,7 @@ import Enrollment from './components/jsx_Files/Enrollment'
 import Profile from './components/jsx_Files/Profile'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Bricks from './components/jsx_Files/Bricks'
+import Finance from './components/jsx_Files/Finance'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>
@@ -21,6 +22,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="Course" element={<Course />} />
         <Route path="Profile" element={<Profile />} />
         <Route path="Enrollment" element={<Enrollment />} />
+        <Route path="Financial" element={<Finance />} />
       </Route>
     </Routes>
   </BrowserRouter>
