@@ -8,7 +8,7 @@
     transition: all 0.3s ease;
   }
 
-  .Attendance-container.modal-open {
+  .Attendance-container.modal-open { /*this is to make the container display as the blue if the user clicks the detials button*/
     filter: blur(8px);
     opacity: 0.9;
   }
@@ -77,26 +77,6 @@
     transform: translateY(1px);
   }
   
-  .close-button{
-    color: #464343;
-    float: right;
-    cursor: pointer;
-    
-  }
-  .close-button:hover {
-    color: #555;
-    
-  }
-  
-  
-  .pagination-info {
-    margin-top: 15px;
-    color: #6c757d;
-    font-size: 14px;
-    padding: 10px 0;
-  }
-  
-
   
   .modal-header{
     display: flex;
@@ -188,8 +168,7 @@
       width: 100%;
       height: calc(100vh - 90px);
       overflow: auto;
-      /* backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px); */
+
   }  
   
   /* Optional: Make modal table header sticky */
