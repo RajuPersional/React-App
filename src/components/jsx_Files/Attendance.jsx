@@ -24,7 +24,6 @@ const Attendance = () => {
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
   
         const result = await response.json();
-        console.log('Server response:', result);
         console.timeEnd("FetchAttendance"); // End timer
   
         if (result.status === 'error') throw new Error(result.error);
@@ -59,62 +58,56 @@ const Attendance = () => {
     setSelectedCourse(null);
   };
 
-  if (isLoading) {
-    return <div className="loading">Loading attendance data...</div>;
-  }
-
-  if (error) {
-    return <div className="error">{error}</div>;
-  }
-
-  return ( 
+  return (
     <>
-      <div className={`Attendance-container ${isModalOpen ? 'modal-open' : ''}`}>
-      {error && <div className="error-message">{error}</div>}
-      <h2>Attendance Summary</h2>
-      <div className="table-responsive">
-        <table className="attendance-table">
-          <thead>
-            <tr>
-              <th>S.No</th>
-              <th>Course Code</th>
-              <th>Course Name</th>
-              <th>Classes Attended</th>
-              <th>Hours Attended</th>
-              <th>Total Classes</th>
-              <th>Total Hours</th>
-              <th>Percentage</th>
-              <th>Details</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Object.entries(courses).map(([courseCode, course], index) => (
-              <tr key={courseCode}>
-                <td>{index + 1}</td>
-                <td>{courseCode}</td>
-                <td>{course.CourseName || 'Unknown Course'}</td>
-                <td>{course.ClassAttended || 0}</td>
-                <td>{course.AttendedHours || 0}</td>
-                <td>{course.TotalClass || 0}</td>
-                <td>{course.TotalHours || 0}</td>
-                <td>{course.Percentage || '0%'}</td>
-                <td>
-                  <button 
-                    className="details-btn"
-                    onClick={() => openModal(courseCode)}
-                  >
-                    Details
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    
-    {isModalOpen && (
+      {isLoading && <div className="loading">Loading attendance data...</div>}
+      {!isLoading && error && <div className="error">{error}</div>}{/* this means we if the data is recieved and the error occured then display this message*/}
+      {!isLoading && !error && (
+        <div className={`Attendance-container ${isModalOpen ? 'modal-open' : ''}`}>
+          <h2>Attendance Summary</h2>
+          <div className="table-responsive">
+            <table className="attendance-table">
+              <thead>
+                <tr>
+                  <th>S.No</th>
+                  <th>Course Code</th>
+                  <th>Course Name</th>
+                  <th>Classes Attended</th>
+                  <th>Hours Attended</th>
+                  <th>Total Classes</th>
+                  <th>Total Hours</th>
+                  <th>Percentage</th>
+                  <th>Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Object.entries(courses).map(([courseCode, course], index) => (
+                  <tr key={courseCode}>
+                    <td>{index + 1}</td>
+                    <td>{courseCode}</td>
+                    <td>{course.CourseName || 'Unknown Course'}</td>
+                    <td>{course.ClassAttended || 0}</td>
+                    <td>{course.AttendedHours || 0}</td>
+                    <td>{course.TotalClass || 0}</td>
+                    <td>{course.TotalHours || 0}</td>
+                    <td>{course.Percentage || '0%'}</td>
+                    <td>
+                      <button
+                        className="details-btn"
+                        onClick={() => openModal(courseCode)}
+                      >
+                        Details
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+  
+      {isModalOpen && (
         <div className="modal" onClick={closeModal}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>
             <div className="modal-header">
@@ -147,17 +140,13 @@ const Attendance = () => {
                 </tbody>
               </table>
             </div>
-            <button
-               className="details-btn"
-               onClick={closeModal}
-               >Close
-          </button>
+            <button className="details-btn" onClick={closeModal}>Close</button>
           </div>
         </div>
       )}
     </>
-    
   );
+  
 };
 
 export default Attendance;

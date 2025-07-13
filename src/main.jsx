@@ -14,6 +14,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <Routes>
       <Route path="/" element={<Bricks />} />
       <Route path="/HomePage" element={<HomePage />}>
+        <Route index element={<Dashboard />} />{/* Default route */}
         <Route path="Dashboard" element={<Dashboard />} />
         <Route path="Attendance" element={<Attendance />} />
         <Route path="Course" element={<Course />} />
