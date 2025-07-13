@@ -34,13 +34,13 @@ const Attendance = () => {
         console.time("StateUpdate");
         setCourses(data.courses);
         setAttendanceData(data.attendance);
-        setIsLoading(false);
+        setIsLoading(false);// we are setting the loading to false because we have recieved the data
         console.timeEnd("StateUpdate");
   
       } catch (err) {
         console.error('Error loading attendance data:', err);
         setError(err.message);
-        setIsLoading(false);
+        setIsLoading(false);// we are setting the loading to false because we have recieved the data
       }
     };
   
@@ -61,9 +61,9 @@ const Attendance = () => {
   return (
     <>
       {isLoading && <div className="loading">Loading attendance data...</div>}
-      {!isLoading && error && <div className="error">{error}</div>}{/* this means we if the data is recieved and the error occured then display this message*/}
+      {!isLoading && error && <div className="error">{error}</div>}{/* this means we if the data is recieved and the error occured then display this*/}
       {!isLoading && !error && (
-        <div className={`Attendance-container ${isModalOpen ? 'modal-open' : ''}`}>
+        <div className={`Attendance-container ${isModalOpen ? 'modal-open' : ''}`}>{/* this means we if the data is recieved and no error occured then display this*/}
           <h2>Attendance Summary</h2>
           <div className="table-responsive">
             <table className="attendance-table">
@@ -82,7 +82,7 @@ const Attendance = () => {
               </thead>
               <tbody>
                 {Object.entries(courses).map(([courseCode, course], index) => (
-                  <tr key={courseCode}>
+                  <tr key={courseCode}>{/* 1* */}
                     <td>{index + 1}</td>
                     <td>{courseCode}</td>
                     <td>{course.CourseName || 'Unknown Course'}</td>
@@ -108,7 +108,7 @@ const Attendance = () => {
       )}
   
       {isModalOpen && (
-        <div className="modal" onClick={closeModal}>
+        <div className="modal" onClick={closeModal}>{/* this means we if the modal is open then display this*/}
           <div className="modal-content" onClick={e => e.stopPropagation()}>
             <div className="modal-header">
               <h3>Attendance Details - {selectedCourse}</h3>

@@ -25,3 +25,4 @@ yarn-error.log*
 
 # Python virtual environment
 backend/venv/
+backend/Notes

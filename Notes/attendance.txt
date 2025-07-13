@@ -1,0 +1,42 @@
+1* {
+                    [
+              ["CS101", {
+                CourseName: "Introduction to Computer Science",
+                ClassAttended: 12,
+                AttendedHours: 24,
+                TotalClass: 15,
+                TotalHours: 30,
+                Percentage: "80%"
+              }],
+              ["MATH201", {
+                CourseName: "Discrete Mathematics",
+                ClassAttended: 10,
+                AttendedHours: 20,
+                TotalClass: 15,
+                TotalHours: 30,
+                Percentage: "67%"
+              }]
+            ]
+
+✅ Now what Object.entries(courses) does:
+It walks through that object and for each key–value pair, it builds an inner array:
+
+js
+Copy
+Edit
+[
+  ["CS101", { CourseName: "...", ... }],
+  ["MATH201", { CourseName: "...", ... }]
+]
+So:
+
+Each inner array has:
+
+index 0 → key ("CS101")
+
+index 1 → value (the nested object)
+
+Object.entries(...) → turns each key–value pair into a [key, value] list
+
+
+}
