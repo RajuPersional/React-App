@@ -37,6 +37,7 @@
 .Financial-container .due-header {
     background-color: #e74c3c;
     color: white;
+    
 }
 
 .Financial-container .payment-header {
@@ -46,6 +47,7 @@
 
 .Financial-container .icon {
     font-size: 1.1rem;
+    
 }
 
 .Financial-container .table-container {
