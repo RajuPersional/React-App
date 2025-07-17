@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../css_files/Enrollment.css'; // Make sure to create this CSS file
 
 
@@ -9,6 +9,8 @@ const Enrollment = () => {
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [toast, setToast] = useState({ show: false, message: '' });
+
+  const toastTimeoutRef = useRef(null);
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -26,12 +28,17 @@ const Enrollment = () => {
   }, [selectedSlot]);
 
   const showToast = (message) => {
+    
+    if (toastTimeoutRef.current) { // if there is a timeout already scheduled, clear it
+      clearTimeout(toastTimeoutRef.current);
+    }
     setToast({ show: true, message });
-    setTimeout(() => {
+    toastTimeoutRef.current = setTimeout(() => { // setTimeout() returns id right away — this is the ID for the scheduled task.
       setToast(prev => ({ ...prev, show: false }));
+      toastTimeoutRef.current = null; // clear the ref after use
     }, 3000);
-      
   };
+      
 
   const handleSlotChange = (e) => {
     setSelectedSlot(e.target.value);
