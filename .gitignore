@@ -12,11 +12,8 @@
 /build
 
 # misc
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+
+
 
 # debug logs
 npm-debug.log*
@@ -26,3 +23,4 @@ yarn-error.log*
 # Python virtual environment
 backend/venv/
 backend/Notes
+backend/.env

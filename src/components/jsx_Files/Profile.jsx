@@ -123,7 +123,6 @@ const Profile = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRFToken': window.csrfToken
         },
         body: JSON.stringify(formData),
         credentials: 'include'
@@ -269,9 +268,7 @@ const Profile = () => {
 
       {/* Student Record Details */}
       <section className="table-section">
-        <div className="section-header">
-          <h2 className="section-title">Student Record Details</h2>
-        </div>
+        <h2 className="section-title">Student Record Details</h2>
 
         <div className="table-container">
           <table className="data-table">

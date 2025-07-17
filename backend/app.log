@@ -1,0 +1,3 @@
+2025-07-13 22:24:47,958 - __main__ - INFO - Loading attendance data from: E:\react-student-portal\backend\Json_Files\Attendance.json
+2025-07-13 22:24:47,963 - __main__ - INFO - Starting Flask server
+2025-07-13 22:24:47,973 - waitress - INFO - Serving on http://127.0.0.1:5000

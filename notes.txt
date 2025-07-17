@@ -3,3 +3,36 @@
       value: 2500,  // milliseconds
       ...
     }
+
+
+
+
+
+def clean(func):
+    def wrapper():
+        print("Wash hands")
+        func()
+    return wrapper
+
+@clean
+def eat(): # This Function will be sent ot the clean function as a parameter so we can Run this inside another Funtion
+    print("Eat food")
+
+
+
+
+
+
+
+
+
+def fixed_decorator(f):
+    @functools.wraps(f)
+    def wrapper():
+        print("Calling decorated function")
+        return f()
+    return wrapper
+@app.route('/hello')
+@fixed_decorator
+def hello():
+    return "Hello!"

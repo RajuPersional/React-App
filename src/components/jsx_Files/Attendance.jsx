@@ -15,6 +15,7 @@ const Attendance = () => {
         console.time("FetchAttendance"); // Start timer
         const response = await fetch('http://localhost:5000/api/merged-attendance', {
           method: 'GET',
+          credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'

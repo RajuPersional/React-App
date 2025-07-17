@@ -21,17 +21,18 @@ const Bricks = () => {
         }   
         setLoading(true);
         try {
-            const res = await fetch('http://127.0.0.1:5000/api/login', {
+            const res = await fetch('http://localhost:5000/api/login', {
                 method: 'POST', 
                 headers: { 
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 },
+                credentials: 'include',  // This is required for cookies to be sent
                 body: JSON.stringify({ 
                     registrationNumber: registerNumber,
                     password: password
                 })
-            });
+            }); 
             
             const data = await res.json();
             
@@ -39,13 +40,7 @@ const Bricks = () => {
                 throw new Error(data.error || 'Login failed');
             }
             navigate('./HomePage')
-            
 
-           
-            // Handle successful login
-            // alert('Login successful!');
-            // <Attendance />
-            // You can redirect or update app state here
             
         } catch (err) {// The err in catch (err) gets its value from the error that was thrown inside the try block`.
             setError(err.message || 'Login failed. Please check your credentials.');
