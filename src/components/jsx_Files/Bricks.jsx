@@ -32,7 +32,7 @@ const Bricks = () => {
                     registrationNumber: registerNumber,
                     password: password
                 })
-            }); 
+            });
             
             const data = await res.json();
             

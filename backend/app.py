@@ -225,21 +225,6 @@ def get_merged_attendance():
         }), 500
 
 
-# Test route to check session status
-# @app.route('/api/test-session', methods=['GET'])
-# def test_session():
-#     logger.info(f"Session test request - Current session: {dict(session)}")
-#     logger.info(f"Session cookie in request: {request.cookies.get('session')}")
-#     logger.info(f"Session permanent: {session.permanent}")
-    
-#     return jsonify({
-#         'status': 'success',
-#         'session': dict(session),
-#         'user_exists': Student.query.filter_by(registration_number=session.get('register_number')).first() is not None,
-#         'session_cookie': request.cookies.get('session') is not None,
-#         'session_permanent': session.permanent
-#     })
-
 # ✅ Run the app
 if __name__ == '__main__':
     logger.info("Starting Flask server")

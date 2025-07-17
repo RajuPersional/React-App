@@ -1,0 +1,31 @@
+1* {
+
+    ${selectedCourse?.index === idx ? 'selected-course' : ''}
+    its will check if the selectedCourse index is equal to the current index if yes then it will add the selected-course class    
+    the First ? is to check weather the selectedCourse is not null(object) if is a object then it will become True
+
+} 
+
+
+
+
+2*{
+        Let's say this is the course:
+
+    course = {
+    title: "EEE2001-Power Systems",
+    badge: "18"
+    }
+    index = 1
+    Then this:
+
+    setSelectedCourse({ ...course, index });
+    Becomes:
+
+
+    setSelectedCourse({
+    title: "EEE2001-Power Systems",
+    badge: "18",
+    index: 1
+    });
+}

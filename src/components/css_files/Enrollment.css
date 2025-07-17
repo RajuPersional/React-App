@@ -156,7 +156,7 @@
     cursor: not-allowed;
 }
 
-.toast {
+.toasts {
     position: fixed;
     bottom: 20px;
     left: 50%;

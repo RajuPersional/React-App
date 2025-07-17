@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import '../css_files/Enrollment.css'; // Make sure to create this CSS file
 
+
+
 const Enrollment = () => {
   const [courses, setCourses] = useState([]);
   const [selectedSlot, setSelectedSlot] = useState('slot-a');
@@ -28,6 +30,7 @@ const Enrollment = () => {
     setTimeout(() => {
       setToast(prev => ({ ...prev, show: false }));
     }, 3000);
+      
   };
 
   const handleSlotChange = (e) => {
@@ -36,7 +39,7 @@ const Enrollment = () => {
   };
 
   const handleCourseSelect = (course, index) => {
-    setSelectedCourse({ ...course, index });
+    setSelectedCourse({ ...course, index }); //2* only one object will be created and Selected
   };
 
   const handleEnrollment = async () => {
@@ -49,6 +52,7 @@ const Enrollment = () => {
       const parts = selectedCourse.title.split('-');
       // const code = parts[0];
       const subject = parts[1];
+      showToast(`Enrollment successful! ${subject}`);
       // const subject = parts.slice(1, -1).join('-');
  
     //   const response = await fetch('/save-attendance', {
@@ -64,8 +68,6 @@ const Enrollment = () => {
     //   if (!response.ok) {
     //     throw new Error(data.message || 'Failed to save enrollment');
     //   }
-
-      showToast(`Enrollment successful! ${subject}`);
     //   console.log('Enrollment saved:', data);
     } catch (error) {
       console.error('Error:', error);
@@ -106,8 +108,8 @@ const Enrollment = () => {
           <div id="courseGrid" className="course-grid">
             {courses.map((course, idx) => (
               <div 
-                key={idx}
-                className={`course-card ${selectedCourse?.index === idx ? 'selected-course' : ''}`}
+                key={idx} 
+                className={`course-card ${selectedCourse?.index === idx ? 'selected-course' : ''}`}//1*
                 onClick={() => handleCourseSelect(course, idx)}
               >
                 <div className="radio-option">
@@ -120,9 +122,7 @@ const Enrollment = () => {
                   />
                   <label htmlFor={`course${idx}`}>{course.title}</label>
                 </div>
-                {course.badge && (
                   <div className="course-badge">{course.badge}</div>
-                )}
               </div>
             ))}
           </div>
@@ -137,11 +137,9 @@ const Enrollment = () => {
         </div>
       )}
 
-      {toast.show && (
-        <div className="toast">
+        {toast.show && <div className="toasts">
           {toast.message}
-        </div>
-      )}
+        </div>}
     </div>
   );
 };
