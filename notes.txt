@@ -41,3 +41,15 @@ def fixed_decorator(f):
 @fixed_decorator
 def hello():
     return "Hello!"
+
+
+
+
+| Database       | Type                           | Where it fits           | Real Use                         |
+| -------------- | ------------------------------ | ----------------------- | -------------------------------- |
+| **SQLite**     | ✅ File-based                   | Local file (`.db`)      | Testing, prototypes, mobile apps |
+| **MySQL**      | ✅ Server-based                 | Needs DB server running | Web apps, shared hosting         |
+| **PostgreSQL** | ✅ Server-based                 | Needs DB server         | Web apps, enterprise systems     |
+| **MongoDB**    | ✅ Server-based (NoSQL)         | Runs as a service       | Real-time apps, document storage |
+| **Firebase**   | ✅ Backend-managed (Cloud)      | Fully cloud-managed     | Mobile/web apps                  |
+| **Supabase**   | ✅ Backend-managed (PostgreSQL) | Cloud-based             | Full-stack cloud apps            |

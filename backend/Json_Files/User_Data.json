@@ -1,0 +1,26 @@
+[
+    {
+        "registration_number": "test1",
+        "name": "John Doe",
+        "email": "tssraju99@gmail.com",
+        "dob": "2000-05-15",
+        "mobile_number": "9876543210",
+        "password": "1"
+    },
+    {
+        "registration_number": "test2",
+        "name": "Jane Smith",
+        "email": "somu91211@gmail.com",
+        "dob": "2001-03-22",
+        "mobile_number": "9876543211",
+        "password": "2"
+    },
+    {
+        "registration_number": "test3",
+        "name": "Robert Johnson",
+        "email": "rajucrypto771@gmail.com",
+        "dob": "1999-11-08",
+        "mobile_number": "9876543212",
+        "password": "3"
+    }
+]

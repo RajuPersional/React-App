@@ -2,30 +2,27 @@ import React, { useState, useEffect, useRef } from 'react';
 import '../css_files/Enrollment.css'; // Make sure to create this CSS file
 
 
-
 const Enrollment = () => {
   const [courses, setCourses] = useState([]);
   const [selectedSlot, setSelectedSlot] = useState('slot-a');
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [toast, setToast] = useState({ show: false, message: '' });
-
   const toastTimeoutRef = useRef(null);
 
-  useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const response = await fetch("/backend/Json_Files/Enrollment.json");
-        const courseData = await response.json();
-        setCourses(courseData[selectedSlot] || []);
-      } catch (error) {
-        console.error('Error loading courses:', error);
-        showToast('Error loading courses. Please try again.');
-      }
-    };
+  const loadCourses = async (slot) => {
+    try {
+      const response = await fetch(`/backend/Json_Files/Enrollment.json`);
+      const data = await response.json();
+      setCourses(data[slot] || []);
+    } catch (error) {
+      console.error('Error loading courses:', error);
+      showToast('Error loading courses. Please try again.');
+    }
+  };
+  useEffect(() => { loadCourses(selectedSlot)}, [selectedSlot]);  
+  
 
-    fetchCourses();
-  }, [selectedSlot]);
 
   const showToast = (message) => {
     
@@ -56,10 +53,14 @@ const Enrollment = () => {
     }
 
     try {
+
       const parts = selectedCourse.title.split('-');
-      // const code = parts[0];
+      const code = parts[0];
       const subject = parts[1];
       showToast(`Enrollment successful! ${subject}`);
+      console.log(code);
+      console.log(subject);
+      
       // const subject = parts.slice(1, -1).join('-');
  
     //   const response = await fetch('/save-attendance', {
@@ -81,6 +82,9 @@ const Enrollment = () => {
       showToast(error.message || 'Error processing enrollment');
     }
   };
+
+
+  const isSelected =(idx)=> selectedCourse?.index===idx // this is trhe Funtion which declare the selected course
 
   const toggleSection = () => {
     setIsCollapsed(!isCollapsed);
@@ -116,7 +120,7 @@ const Enrollment = () => {
             {courses.map((course, idx) => (
               <div 
                 key={idx} 
-                className={`course-card ${selectedCourse?.index === idx ? 'selected-course' : ''}`}//1*
+                className={`course-card ${isSelected(idx) ? 'selected-course' : ''}`}//1*
                 onClick={() => handleCourseSelect(course, idx)}
               >
                 <div className="radio-option">

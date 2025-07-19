@@ -4,12 +4,9 @@ from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 from waitress import serve
 from dotenv import load_dotenv
-import logging
-import os
-import json
-import functools
-import re
-import sys
+import json ,logging,os,functools,re,sys
+from datetime import datetime
+
 
 # Load environment variables from .env file
 load_dotenv()
@@ -18,24 +15,18 @@ load_dotenv()
 app = Flask(__name__)
 
 # Configure CORS for React frontend on localhost:5173
-CORS(
-    app,
-    origins=['http://localhost:5173'],
-    supports_credentials=True,
-)
+CORS(app,origins=['http://localhost:5173'],supports_credentials=True)
 # Always use 'localhost' (not 127.0.0.1) for both backend and frontend in development.
 
 # Configure logging
-logging.basicConfig(
-    level=logging.DEBUG,
+logging.basicConfig(level=logging.DEBUG,
     # format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     # handlers=[
     #     logging.StreamHandler(stream=sys.stdout)
     # ]
 
-    
 )
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__) # this will create a logger for the current file "INFO:__main__:Starting Flask server"
 
 # Enable Flask debug logging
 app.logger.setLevel(logging.DEBUG)
@@ -44,41 +35,75 @@ app.logger.handlers = logging.getLogger().handlers
 # Enable SQLAlchemy logging
 # logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
 
-# ✅ SQLite DB setup
+# SQLite DB setup
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///students.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-# Session configuration
-app.config['SESSION_COOKIE_SECURE'] = False  # Set to True in production with HTTPS
-app.config['SESSION_COOKIE_HTTPONLY'] = True
-app.config['SESSION_COOKIE_SAMESITE'] = 'none'
-app.config['SESSION_COOKIE_SECURE'] = True
 # Flask will handle session cookie automatically. No need to set cookie manually.
  
 # Configure session
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-# ✅ Student Model
-class Student(db.Model):# This class will act as the database table
+
+def fetch_json_data(file_path):
+    with open(file_path, 'r') as file: # the with open (file_path, 'r') will one the json data and the varaible file will access to the file 
+        return json.load(file)
+
+
+# Student Model
+class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    registration_number = db.Column(db.String(50), unique=True, nullable=False)
+    registration_number = db.Column(db.String(20), unique=True, nullable=False)
+    name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)# nullable =false the value should not be null value 
+    dob = db.Column(db.Date, nullable=False)
+    mobile_number = db.Column(db.String(15), nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())# This will store the time when the user is created
 
-    # def set_password(self, password):
-    #     self.password_hash = generate_password_hash(password)
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
 
-# ✅ Helper to get JSON path
+def create_sample_users():
+    sample_users = fetch_json_data('Json_Files/User_Data.json')
+    
+    try:
+        for user_data in sample_users:
+            # Check if user already exists
+            if not Student.query.filter_by(registration_number=user_data['registration_number']).first():
+                user = Student(
+                    registration_number=user_data['registration_number'],
+                    name=user_data['name'],
+                    email=user_data['email'],
+                    dob=datetime.strptime(user_data['dob'], '%Y-%m-%d'),
+                    mobile_number=user_data['mobile_number']
+                )
+                user.set_password(str(user_data['password']))  # We need to Convert into the String because the set_password need the String as the input 
+                db.session.add(user)
+        
+        db.session.commit()
+        logger.info("Sample users created successfully!")
+    except Exception as e:
+        db.session.rollback()
+        logger.error(f"Error creating sample users: {str(e)}")
+
+# Initialize database
+with app.app_context():
+    db.create_all()
+    # Create sample users after database is created
+    create_sample_users()
+
+# Helper to get JSON path
 def get_json_path():
     current_dir = os.path.dirname(os.path.abspath(__file__))
     return os.path.join(current_dir, 'Json_Files', 'Attendance.json')
 
 
-# ✅ Load JSON data once at startup
+# Load JSON data once at startup
 cached_attendance_data = {}
 try:
     json_path = get_json_path()
@@ -89,11 +114,6 @@ try:
 except Exception as e:
     logger.error(f"Failed to load attendance JSON on startup: {e}")
     cached_attendance_data = {}
-
-
-# ✅ Initialize database
-with app.app_context():
-    db.create_all()
 
 
 # Configure session
@@ -111,7 +131,6 @@ def require_session(f):#The f is a parameter — it will receive another functio
         
         try:
             register_number = session['register_number']
-            print(register_number)
             logger.info(f"Validating session for register_number: {register_number}")
             
             if not register_number or not isinstance(register_number, str):
@@ -197,7 +216,7 @@ def logout():
         logger.error(f"Logout error: {e}", exc_info=True)
         return jsonify({'error': str(e)}), 500
 
-# ✅ Attendance data route
+# Attendance data route
 @app.route('/api/merged-attendance', methods=['GET'])
 @require_session
 def get_merged_attendance():
@@ -225,7 +244,7 @@ def get_merged_attendance():
         }), 500
 
 
-# ✅ Run the app
+# Run the app
 if __name__ == '__main__':
     logger.info("Starting Flask server")
     serve(app, host='localhost', port=5000)
