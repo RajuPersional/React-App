@@ -3,19 +3,40 @@ import '../css_files/Profile.css';
 
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
-  const [user, setUser] = useState({
-    name: 'John Doe',
-    register_number: 'REG12345',
-    date_of_birth: '2000-01-01',
-    email: 'john.doe@example.com',
-    phone_number: '1234567890'
-  });
-
+  const [user, setUser] = useState({});
   const [formData, setFormData] = useState({ ...user });
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
 
+
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      try {
+        const response = await fetch('/api/profile', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include'
+        });
+
+        const data = await response.json();
+
+        if (data.status === 'success') {
+          setUser(data.data);
+          setFormData(data.data);
+        } else {
+          throw new Error(data.error || 'Failed to fetch profile data');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        showToast(error.message || 'Error fetching profile data', 'error');
+      }
+    };
+    fetchProfileData();
+  }, []);
+  
   // Show toast message
   const showToast = (message, type = 'success') => {
     setToast({ show: true, message, type });

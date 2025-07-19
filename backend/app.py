@@ -119,6 +119,9 @@ except Exception as e:
 # Configure session
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
+
+
+
 # Session management decorator
 def require_session(f):#The f is a parameter — it will receive another function as input.
     @functools.wraps(f) # this will make act like the original function
@@ -242,6 +245,30 @@ def get_merged_attendance():
             'status': 'error',
             'error': str(e)
         }), 500
+
+
+@require_session
+@app.route('/api/profile', methods=['GET'])
+def get_profile():
+    try:
+        registration_number = session['register_number']
+        user = Student.query.filter_by(registration_number=registration_number).first()
+        if not user:
+            return jsonify({'error': 'User not found'}), 404
+        
+        return jsonify({
+            'status': 'success',
+            'data': {
+                'name': user.name,
+                'register_number': user.registration_number,
+                'date_of_birth': user.dob.strftime('%Y-%m-%d'),
+                'email': user.email,
+                'phone_number': user.mobile_number
+            }
+        }), 200
+    except Exception as e:
+        logger.error(f"Error in profile route: {e}")
+        return jsonify({'error': str(e)}), 500
 
 
 # Run the app
