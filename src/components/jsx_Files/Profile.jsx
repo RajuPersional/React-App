@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../css_files/Profile.css';
+import ProfContainer from './Prof_container';
 
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -185,85 +186,48 @@ const Profile = () => {
           <div className="profile-image hover-element"></div>
         </div>
         <div className="profile-details">
-          <div className="detail-group">
-            <span className="detail-label">Name</span>
-            {!isEditing ? (
-              <span className="detail-value" id="profile-name-display">{user.name}</span>
-            ) : (
-              <div className="input-wrapper">
-                <input 
-                  type="text" 
-                  id="profile-name-input" 
-                  className={`profile-input ${errors.name ? 'error' : ''}`}
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  placeholder="Enter your name"
-                  title={errors.name || ''}
-                />
-                {errors.name && <span className="error-message">{errors.name}</span>}
-              </div>
-            )}
-          </div>
+         
+          <ProfContainer 
+            user={user}
+            formData={formData.name}
+            errors={errors.name}
+            isEditing={isEditing}
+            handleInputChange={handleInputChange}
+            fieldName="name"
+            label="Name"
+          />
           <div className="detail-group">
             <span className="detail-label">Reg No.</span>
             <span className="detail-value" id="profile-reg-display">{user.register_number}</span>
           </div>
-          <div className="detail-group">
-            <span className="detail-label">Date of Birth</span>
-            {!isEditing ? (
-              <span className="detail-value" id="profile-dob-display">{user.date_of_birth}</span>
-            ) : (
-              <div className="input-wrapper">
-                <input 
-                  type="date" 
-                  id="profile-dob-input" 
-                  className={`profile-input ${errors.date_of_birth ? 'error' : ''}`}
-                  value={formData.date_of_birth}
-                  onChange={handleInputChange}
-                  title={errors.date_of_birth || ''}
-                />
-                {errors.date_of_birth && <span className="error-message">{errors.date_of_birth}</span>}
-              </div>
-            )}
-          </div>
-          <div className="detail-group">
-            <span className="detail-label">Email</span>
-            {!isEditing ? (
-              <span className="detail-value" id="profile-email-display">{user.email}</span>
-            ) : (
-              <div className="input-wrapper">
-                <input 
-                  type="email" 
-                  id="profile-email-input" 
-                  className={`profile-input ${errors.email ? 'error' : ''}`}
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  placeholder="Enter your email"
-                  title={errors.email || ''}
-                />
-                {errors.email && <span className="error-message">{errors.email}</span>}
-              </div>
-            )}
-          </div>
-          <div className="detail-group">
-            <span className="detail-label">Mobile No.</span>
-            {!isEditing ? (
-              <span className="detail-value" id="profile-phone-display">{user.phone_number}</span>
-            ) : (
-              <div className="input-wrapper">
-                <input 
-                  type="tel" 
-                  id="profile-phone-input" 
-                  className={`profile-input ${errors.phone_number ? 'error' : ''}`}
-                  value={formData.phone_number}
-                  onChange={handleInputChange}
-                  placeholder="Enter your phone number"
-                  title={errors.phone_number || ''}
-                />
-                {errors.phone_number && <span className="error-message">{errors.phone_number}</span>}
-              </div>
-            )}
-          </div>
+          <ProfContainer 
+            user={user}
+            formData={formData.email}
+            errors={errors.email}
+            isEditing={isEditing}
+            handleInputChange={handleInputChange}
+            fieldName="email"
+            label="Email"
+          />  
+          <ProfContainer 
+            user={user}
+            formData={formData.date_of_birth}
+            errors={errors.date_of_birth}
+            isEditing={isEditing}
+            handleInputChange={handleInputChange}
+            fieldName="date_of_birth"
+            label="Date of Birth"
+          />
+          <ProfContainer 
+            user={user}
+            formData={formData.phone_number}
+            errors={errors.phone_number}
+            isEditing={isEditing}
+            handleInputChange={handleInputChange}
+            fieldName="phone_number"
+            label="Phone Number"
+          />
+
         </div>
       </div>
 
