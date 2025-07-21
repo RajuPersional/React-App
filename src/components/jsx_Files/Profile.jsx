@@ -18,7 +18,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
-        const response = await fetch('/api/profile', {
+        const response = await fetch('http://localhost:5173/api/profile', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ const Profile = () => {
   // Show toast message
   const showToast = (message, type = 'success') => {
     setToast({ show: true, message, type });
-    setTimeout(() => setToast(prev => ({ ...prev, show: false })), 30000);
+    setTimeout(() => setToast(prev => ({ ...prev, show: false })), 3000);
   };
 
   // Validate input field
@@ -127,22 +127,23 @@ const Profile = () => {
   const saveProfileData = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch('/api/update-profile', {
+      const response = await fetch('http://localhost:5000/api/update_profile', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(formData),
         credentials: 'include'
-      });
+      }); 
 
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
       const data = await response.json();
-
       if (data.status === 'success') {
-        setUser({ ...formData });
         showToast('Profile updated successfully!');
       } else {
-        throw new Error(data.message || 'Failed to update profile');
+        throw new Error(data.error || 'Failed to update profile');
       }
     } catch (error) {
       console.error('Error:', error);
@@ -161,7 +162,6 @@ const Profile = () => {
         const isValid = fieldsToValidate.every(field => {     // the use of the every is It returns true only if all validations return true
           return validateField(field, formData[field]); // field is the name of the field and formData[field] is the value of the field
         }); 
-        
         if (isValid) { // this is the reasone we are Writing the isValid
           setUser(formData);
  
@@ -185,7 +185,7 @@ const Profile = () => {
 
   return (
     <div className="profile-container">
-      <div classname="Profile-Section">
+      <div className="Profile-Section">
         <div className="profile-header">
           <h1 className="profile-title">My Profile</h1>
           <button 
@@ -211,7 +211,8 @@ const Profile = () => {
 
             {["email","phone_number","date_of_birth","name"].map((field)=>{
                 return(
-                    <ProfContainer 
+                    <ProfContainer
+                    key={field} 
                     user={user}
                     formData={formData[field]}
                     errors={errors[field]}
@@ -288,10 +289,9 @@ const Profile = () => {
       )}
 
       {/* Toast Notification */}
-      {/* Toast Notification */}
       {toast.show && (
-        <div className={`toast ${toast.type}`}>
-          <div className="toast-message">
+        <div className={`toasts ${toast.type}`}>
+          <div className="toasts-message">
             {toast.message}
           </div>
         </div>

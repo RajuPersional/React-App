@@ -18,6 +18,8 @@ app = Flask(__name__)
 CORS(app,origins=['http://localhost:5173'],supports_credentials=True)
 # Always use 'localhost' (not 127.0.0.1) for both backend and frontend in development.
 
+
+
 # Configure logging
 logging.basicConfig(level=logging.DEBUG,
     # format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -271,6 +273,35 @@ def get_profile():
         return jsonify({'error': str(e)}), 500
 
 
+@require_session
+@app.route('/api/update_profile', methods=['POST'])
+def update_profile():
+    try:   
+        registration_number = session['register_number']
+        
+        user = Student.query.filter_by(registration_number=registration_number).first()
+        if not user: 
+            return jsonify({'error': 'User not found'}), 404
+        data = request.get_json()
+        user.name = data.get('name', user.name)
+        user.email = data.get('email', user.email)
+        user.mobile_number = data.get('phone_number', user.mobile_number)
+        dob = data.get('date_of_birth')
+        if dob:
+            if isinstance(dob, str):
+                try:
+                    user.dob = datetime.strptime(dob, '%Y-%m-%d').date()
+                except Exception as e:
+                    return jsonify({'error': 'Invalid date format. Must be YYYY-MM-DD.'}), 400
+            elif isinstance(dob, date):
+                user.dob = dob
+        db.session.commit()
+
+        logger.info(f"User '{registration_number}' logged in successfully")
+        return jsonify({'status': 'success'}), 200
+    except Exception as e:
+        logger.error(f"Error in profile route: {e}")
+        return jsonify({'error': str(e)}), 500
 # Run the app
 if __name__ == '__main__':
     logger.info("Starting Flask server")
