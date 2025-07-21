@@ -152,6 +152,7 @@ const Profile = () => {
     }
   };
 
+
   // Toggle edit mode
   const handleEditToggle = async () => {
       if (isEditing) { // this is only Work when the data is Editing 
@@ -159,10 +160,19 @@ const Profile = () => {
         const fieldsToValidate = ['name', 'email', 'phone_number', 'date_of_birth'];
         const isValid = fieldsToValidate.every(field => {     // the use of the every is It returns true only if all validations return true
           return validateField(field, formData[field]); // field is the name of the field and formData[field] is the value of the field
-        });
+        }); 
         
         if (isValid) { // this is the reasone we are Writing the isValid
-          await saveProfileData();  // we write the await beacuse we want to wait for the saveProfileData to finish before we continue
+          setUser(formData);
+ 
+          try {
+            await saveProfileData(); // we write the await beacuse we want to wait for the saveProfileData to finish before we continue
+          } catch (error) {
+            // If backend save fails, we can still show the updated UI
+            // but inform the user about the error
+            showToast('Profile saved locally but failed to sync with server', 'warning');
+          }        
+        
         } else {
           showToast('Please fix the validation errors', 'error');
           return;
@@ -208,10 +218,11 @@ const Profile = () => {
                     isEditing={isEditing}
                     handleInputChange={handleInputChange}
                     fieldName={field}
-                    label={field}
+                    label={field.charAt(0).toUpperCase() + field.slice(1)} // made the Field name as the key to send the value to the Component
                   />
                 )
             })}
+            
 
           </div>
         </div>
