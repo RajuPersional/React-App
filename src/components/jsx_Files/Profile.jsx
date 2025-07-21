@@ -1,3 +1,7 @@
+// Note :
+// * formData	Temporary state while editing	✅ When isEditing === true  user	Permanent profile data	✅ When isEditing === false
+
+
 import React, { useState, useEffect } from 'react';
 import '../css_files/Profile.css';
 import ProfContainer from './Prof_container';
@@ -5,7 +9,7 @@ import ProfContainer from './Prof_container';
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [user, setUser] = useState({});
-  const [formData, setFormData] = useState({ ...user });
+  const [formData, setFormData] = useState({});
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
@@ -41,12 +45,12 @@ const Profile = () => {
   // Show toast message
   const showToast = (message, type = 'success') => {
     setToast({ show: true, message, type });
-    setTimeout(() => setToast(prev => ({ ...prev, show: false })), 3000);
+    setTimeout(() => setToast(prev => ({ ...prev, show: false })), 30000);
   };
 
   // Validate input field
   const validateField = (name, value) => {
-    let error = '';
+    let error = ''; // we are intializing the error to empty string
     
     switch(name) {
       case 'email':
@@ -90,26 +94,26 @@ const Profile = () => {
         }
         break;
       
-      default:
+      default:// we Write this beacue 
         break;
     }
     
-    setErrors(prev => ({
-      ...prev,
+    setErrors(prev => ({    // this is the inital State of the errors 
+      ...prev,            
       [name]: error
     }));
     
-    return !error;
+    return !error; //3*  So if there is any error we set error variable its has a value not is true we convert that into the flase and return 
   };
 
   // Handle input change with validation
   const handleInputChange = (e) => {
-    const { id, value } = e.target;
-    const fieldName = id.replace('-input', '').replace('profile-', '');
+    const { id, value } = e.target; // profile-email-input this is the example output of the id  and value is the value of the input field
+    const fieldName = id.replace('-input', '').replace('profile-', ''); // this will remove the profile- and -input from the id so we will get the email as the output 
     
     setFormData(prev => ({
       ...prev,
-      [fieldName]: value
+      [fieldName]: value     // so we are using teh fieldname to set the value of the input Field like an email
     }));
     
     // Validate field on change
@@ -118,24 +122,6 @@ const Profile = () => {
     }
   };
 
-  // Toggle edit mode
-  const handleEditToggle = async () => {
-    if (isEditing) {
-      // Validate all fields before saving
-      const fieldsToValidate = ['name', 'email', 'phone_number', 'date_of_birth'];
-      const isValid = fieldsToValidate.every(field => {
-        return validateField(field, formData[field]);
-      });
-      
-      if (isValid) {
-        await saveProfileData();
-      } else {
-        showToast('Please fix the validation errors', 'error');
-        return;
-      }
-    }
-    setIsEditing(!isEditing);
-  };
 
   // Save profile data to API
   const saveProfileData = async () => {
@@ -166,70 +152,95 @@ const Profile = () => {
     }
   };
 
+  // Toggle edit mode
+  const handleEditToggle = async () => {
+      if (isEditing) { // this is only Work when the data is Editing 
+        // Validate all fields before saving
+        const fieldsToValidate = ['name', 'email', 'phone_number', 'date_of_birth'];
+        const isValid = fieldsToValidate.every(field => {     // the use of the every is It returns true only if all validations return true
+          return validateField(field, formData[field]); // field is the name of the field and formData[field] is the value of the field
+        });
+        
+        if (isValid) { // this is the reasone we are Writing the isValid
+          await saveProfileData();  // we write the await beacuse we want to wait for the saveProfileData to finish before we continue
+        } else {
+          showToast('Please fix the validation errors', 'error');
+          return;
+        }
+      }
+    setIsEditing(!isEditing);
+  };
+
+  
+
   return (
     <div className="profile-container">
-      {/* Header Section */}
-      <div className="profile-header">
-        <h1 className="profile-title">My Profile</h1>
-        <button 
-          type="button" 
-          className="edit-btn hover-element" 
-          id="edit-save-btn"
-          onClick={handleEditToggle}
-        >
-          {isEditing ? 'Save Profile' : 'Edit Profile'}
-        </button>
-      </div>
-
-      <div className="profile-content">
-        <div className="profile-image-container">
-          <div className="profile-image hover-element"></div>
+      <div classname="Profile-Section">
+        <div className="profile-header">
+          <h1 className="profile-title">My Profile</h1>
+          <button 
+            type="button" 
+            className="edit-btn hover-element" 
+            id="edit-save-btn"
+            onClick={handleEditToggle}
+          >
+            {isEditing ? 'Save Profile' : 'Edit Profile'}
+          </button>
         </div>
-        <div className="profile-details">
-         
-          <ProfContainer 
-            user={user}
-            formData={formData.name}
-            errors={errors.name}
-            isEditing={isEditing}
-            handleInputChange={handleInputChange}
-            fieldName="name"
-            label="Name"
-          />
-          <div className="detail-group">
-            <span className="detail-label">Reg No.</span>
-            <span className="detail-value" id="profile-reg-display">{user.register_number}</span>
+
+        <div className="profile-content">
+          <div className="profile-image-container">
+            <div className="profile-image hover-element"></div>
           </div>
-          <ProfContainer 
-            user={user}
-            formData={formData.email}
-            errors={errors.email}
-            isEditing={isEditing}
-            handleInputChange={handleInputChange}
-            fieldName="email"
-            label="Email"
-          />  
-          <ProfContainer 
-            user={user}
-            formData={formData.date_of_birth}
-            errors={errors.date_of_birth}
-            isEditing={isEditing}
-            handleInputChange={handleInputChange}
-            fieldName="date_of_birth"
-            label="Date of Birth"
-          />
-          <ProfContainer 
-            user={user}
-            formData={formData.phone_number}
-            errors={errors.phone_number}
-            isEditing={isEditing}
-            handleInputChange={handleInputChange}
-            fieldName="phone_number"
-            label="Phone Number"
-          />
+          <div className="profile-details">
+          
+            <ProfContainer 
+              user={user}
+              formData={formData.name}
+              errors={errors.name}
+              isEditing={isEditing}
+              handleInputChange={handleInputChange}
+              fieldName="name"
+              label="Name"
+            />
+            <div className="detail-group">
+              <span className="detail-label">Reg No.</span>
+              <span className="detail-value" id="profile-reg-display">{user.register_number}</span>
+            </div>
+            <ProfContainer 
+              user={user}
+              formData={formData.email}
+              errors={errors.email}
+              isEditing={isEditing}
+              handleInputChange={handleInputChange}
+              fieldName="email"
+              label="Email"
+            />  
+            <ProfContainer 
+              user={user}
+              formData={formData.date_of_birth}
+              errors={errors.date_of_birth}
+              isEditing={isEditing}
+              handleInputChange={handleInputChange}
+              fieldName="date_of_birth"
+              label="Date of Birth"
+            />
+            <ProfContainer 
+              user={user}
+              formData={formData.phone_number}
+              errors={errors.phone_number}
+              isEditing={isEditing}
+              handleInputChange={handleInputChange}
+              fieldName="phone_number"
+              label="Phone Number"
+            />
 
+          </div>
         </div>
+
       </div>
+     
+      
 
       {/* Student Record Overview */}
       <section className="overview-section">
@@ -242,13 +253,13 @@ const Profile = () => {
             { label: 'Research Projects', value: 0 },
             { label: 'Publication', value: 0 },
             { label: 'Sponsor Project NIRF', value: 0 }
-          ].map((stat, index) => (
+          ].map((stat, index) => (    
             <div className="stat-card hover-element" key={index}>
               <div className="stat-label">{stat.label}</div>
               <div className="stat-value">{stat.value}</div>
             </div>
-          ))}
-        </div>
+          ))}{/* We need to use this because we need to use the {} to make the jsx understand the js */}
+        </div> 
       </section>
 
       {/* Student Record Details */}
@@ -288,12 +299,17 @@ const Profile = () => {
       )}
 
       {/* Toast Notification */}
+      {/* Toast Notification */}
       {toast.show && (
         <div className={`toast ${toast.type}`}>
-          {toast.message}
+          <div className="toast-message">
+            {toast.message}
+          </div>
         </div>
       )}
+
     </div>
+   
   );
 };
 
