@@ -193,47 +193,25 @@ const Profile = () => {
             <div className="profile-image hover-element"></div>
           </div>
           <div className="profile-details">
-          
-            <ProfContainer 
-              user={user}
-              formData={formData.name}
-              errors={errors.name}
-              isEditing={isEditing}
-              handleInputChange={handleInputChange}
-              fieldName="name"
-              label="Name"
-            />
+           
             <div className="detail-group">
               <span className="detail-label">Reg No.</span>
               <span className="detail-value" id="profile-reg-display">{user.register_number}</span>
             </div>
-            <ProfContainer 
-              user={user}
-              formData={formData.email}
-              errors={errors.email}
-              isEditing={isEditing}
-              handleInputChange={handleInputChange}
-              fieldName="email"
-              label="Email"
-            />  
-            <ProfContainer 
-              user={user}
-              formData={formData.date_of_birth}
-              errors={errors.date_of_birth}
-              isEditing={isEditing}
-              handleInputChange={handleInputChange}
-              fieldName="date_of_birth"
-              label="Date of Birth"
-            />
-            <ProfContainer 
-              user={user}
-              formData={formData.phone_number}
-              errors={errors.phone_number}
-              isEditing={isEditing}
-              handleInputChange={handleInputChange}
-              fieldName="phone_number"
-              label="Phone Number"
-            />
+
+            {["email","phone_number","date_of_birth","name"].map((field)=>{
+                return(
+                    <ProfContainer 
+                    user={user}
+                    formData={formData[field]}
+                    errors={errors[field]}
+                    isEditing={isEditing}
+                    handleInputChange={handleInputChange}
+                    fieldName={field}
+                    label={field}
+                  />
+                )
+            })}
 
           </div>
         </div>
